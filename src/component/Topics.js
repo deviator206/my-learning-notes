@@ -8,6 +8,7 @@ import {
     useRouteMatch
 } from "react-router-dom";
 
+import TopicDetail from './TopicDetail';
 
 function Topics(props) {
     // The `path` lets us build <Route> paths that are
@@ -15,7 +16,7 @@ function Topics(props) {
     // us build relative links.
     
     let { path, url } = useRouteMatch();
-    const {learning_topics = []} = props;
+    const {learning_topics = [], tRef} = props;
     
     const getLinks = () => {
         const linksList = [];
@@ -30,7 +31,7 @@ function Topics(props) {
     }
     return (
         <div>
-            <h2>Topics</h2>
+            <h2>My Notes</h2>
             <ul>
                 {getLinks()}
             </ul>
@@ -40,7 +41,7 @@ function Topics(props) {
                     <h3>Please select a topic.</h3>
                 </Route>
                 <Route path={`${path}/:topicId`}>
-                    <Topic />
+                    <TopicDetail tRef={tRef} />
                 </Route>
             </Switch>
         </div>
@@ -49,20 +50,6 @@ function Topics(props) {
 }
 
 
-
-
-function Topic() {
-    // The <Route> that rendered this component has a
-    // path of `/topics/:topicId`. The `:topicId` portion
-    // of the URL indicates a placeholder that we can
-    // get from `useParams()`.
-    let { topicId } = useParams();
-    return (
-        <div>
-            <h3>{topicId}</h3>
-        </div>
-    );
-}
 
 
 export default Topics;

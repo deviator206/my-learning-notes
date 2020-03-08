@@ -26,13 +26,18 @@ import Home from './component/Home';
 // any other React app.
 
 export default class App extends React.Component {
+
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('learn-topics');
+    this.refDetail = firebase.firestore();
     this.unsubscribe = null;
     this.state = {
       learning_topics: []
     };
+
+    this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
+
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -49,15 +54,15 @@ export default class App extends React.Component {
     console.log(learning_topics)
     this.setState({
       learning_topics
-   });
+    });
   }
 
-  componentDidMount (){
+  componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
   render() {
-    const {learning_topics = []} = this.state;
+    const { learning_topics = [] } = this.state;
     return (
       <Router>
         <Container>
@@ -82,9 +87,12 @@ export default class App extends React.Component {
               <Home />
             </Route>
             <Route path="/learnings">
-              <Topics learning_topics={learning_topics} />
+              <Topics learning_topics={learning_topics} tRef={this.refDetail} />
             </Route>
           </Switch>
+          <footer className="blockquote-footer">
+             <cite title="Source Title">@deviator206</cite>
+          </footer>
         </Container>
       </Router>
     );
