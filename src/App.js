@@ -3,9 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useParams,
-  useRouteMatch
+  Link
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -14,6 +12,7 @@ import Nav from 'react-bootstrap/Nav';
 import firebase from './api/Firebase';
 import Topics from "./component/Topics"
 import Home from './component/Home';
+import GeneratedView from './component/GeneratedView';
 
 
 // Since routes are regular React components, they
@@ -77,6 +76,11 @@ export default class App extends React.Component {
                 <Link to="/learnings">Covered Topics</Link>
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="link-2">
+                <Link to="/ui-based-on-json">UI based on JSON</Link>
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
 
 
@@ -89,6 +93,10 @@ export default class App extends React.Component {
             <Route path="/learnings">
               <Topics learning_topics={learning_topics} tRef={this.refDetail} />
             </Route>
+            <Route path="/ui-based-on-json">
+              <GeneratedView learning_topics={learning_topics} tRef={this.refDetail} />
+            </Route>
+
           </Switch>
           <footer className="blockquote-footer">
              <cite title="Source Title">@deviator206</cite>

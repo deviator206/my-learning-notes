@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams,
-    useRouteMatch
+    useParams
 } from "react-router-dom";
-
+import ViewResolver from './ViewResolver';
 
 
 export default function TopicDetail(props) {
@@ -23,11 +18,12 @@ export default function TopicDetail(props) {
         detailInfo.onSnapshot((querySnapshot) => {
             const learning_topics = [];
             querySnapshot.forEach((doc) => {
-                const { primary, secondary } = doc.data();
+                const { primary, secondary, layout } = doc.data();
                 learning_topics.push({
                     key: doc.id,
                     primary,
-                    secondary
+                    secondary, 
+                    layout
                 });
             });
             console.log(learning_topics);
@@ -47,13 +43,15 @@ export default function TopicDetail(props) {
         }
         return secondaryContent;
     }
+    // {c.secondary && getMeSecondaryContent(c.secondary)}
+    // <h2>{c.primary} </h2>
+    // <h3>{topicId}</h3>
     return (
         <div>
             {topicDetails.map((c, index) => (
                 <div>
-                    <h3>{topicId}</h3>
-                    <h2>{c.primary} </h2>
-                    {c.secondary && getMeSecondaryContent(c.secondary)}
+                    {c.layout && ViewResolver.getResolvedPageContent(c.layout)}
+                    {!c.layout && c.secondary && getMeSecondaryContent(c.secondary)}
                 </div>
 
             ))}
